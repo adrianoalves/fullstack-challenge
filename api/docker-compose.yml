@@ -1,12 +1,14 @@
-name: fullstack-challenge
 services:
     app:
         build:
-            context: ./docker
-        ports:
-            - "80:80"
+            context: ./docker/app
+        container_name: app
+        environment:
+            SERVICE_NAME: app
+            SERVICE_TAGS: php
+        working_dir: /var/www/
         volumes:
-            - .:/var/www/html
+            - .:/var/www
         networks:
             - fullstack
 # i decided to replace to nginx from apache to get more concise, lighter and faster webserver and to open more performance and conf options

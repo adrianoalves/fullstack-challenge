@@ -25,13 +25,12 @@ services:
             - fullstack
 
     mysql:
-        image: mariadb
-        container_name: fs_mariadb
+        image: mysql:8
+        container_name: fs_mysql
         ports:
             - "3306:3306"
         volumes:
-            - mysql_data:/var/lib/mysql
-            - ./docker/mysql/init:/docker-entrypoint-initdb.d
+            - mysql_data:/var/lib/mysql/
             - ./docker/mysql/config/my.cnf:/etc/mysql/my.cnf
         environment:
             - MYSQL_DATABASE=${DB_DATABASE}
@@ -56,4 +55,6 @@ networks:
         driver: bridge
 volumes:
     mysql_data:
+        driver: local
     redis_data:
+        driver: local

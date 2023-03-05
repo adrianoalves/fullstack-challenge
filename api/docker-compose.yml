@@ -2,9 +2,9 @@ services:
     app:
         build:
             context: ./docker/app
-        container_name: app
+        container_name: fs_app
         environment:
-            SERVICE_NAME: app
+            SERVICE_NAME: fs_app
             SERVICE_TAGS: php
         working_dir: /var/www/
         volumes:
@@ -14,7 +14,7 @@ services:
 # i decided to replace to nginx from apache to get more concise, lighter and faster webserver and to open more performance and conf options
     webserver:
         image: nginx:alpine
-        container_name: webserver
+        container_name: fs_webserver
         ports:
             - "80:80"
             - "443:443"
@@ -26,7 +26,7 @@ services:
 
     mysql:
         image: mariadb
-        container_name: mariadb
+        container_name: fs_mariadb
         ports:
             - "3306:3306"
         volumes:
@@ -43,6 +43,7 @@ services:
 
     redis:
         image: redis:alpine
+        container_name: fs_redis
         ports:
             - "6379:6379"
         volumes:

@@ -7,24 +7,50 @@ services:
             - "80:80"
         volumes:
             - .:/var/www/html
+        networks:
+            - fullstack
+# i decided to replace to nginx from apache to get more concise, lighter and faster webserver and to open more performance and conf options
+    webserver:
+        image: nginx:alpine
+        container_name: webserver
+        ports:
+            - "80:80"
+            - "443:443"
+        volumes:
+            - ./:/var/www
+            - ./docker/webserver/config/:/etc/nginx/conf.d
+        networks:
+            - fullstack
 
     mysql:
-        image: mysql:8
+        image: mariadb
+        container_name: mariadb
         ports:
             - "3306:3306"
         volumes:
             - mysql_data:/var/lib/mysql
-            - ./docker:/docker-entrypoint-initdb.d
+            - ./docker/mysql/init:/docker-entrypoint-initdb.d
+            - ./docker/mysql/config/my.cnf:/etc/mysql/my.cnf
         environment:
-            MYSQL_ROOT_PASSWORD: root
+            - MYSQL_DATABASE=${DB_DATABASE}
+            - MYSQL_ROOT_PASSWORD=${DB_PASSWORD}
+            - MYSQL_PASSWORD=${DB_PASSWORD}
+            - MYSQL_USER=${DB_USERNAME}
+        networks:
+            - fullstack
 
     redis:
-        image: redis:7
+        image: redis:alpine
         ports:
             - "6379:6379"
         volumes:
             - redis_data:/data
-
+        networks:
+            - fullstack
+# by configuring a network, it helps to build a cloud prod microservice environment
+networks:
+    fullstack:
+        driver: bridge
 volumes:
     mysql_data:
     redis_data:

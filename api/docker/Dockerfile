@@ -1,22 +1,51 @@
-FROM php:8.1-apache
+# php stable debian image
+FROM php:fpm-bullseye
 
-RUN apt-get update
+WORKDIR /var/www/
 
-RUN apt-get install -y \
-    pkg-config  \
-    libzip-dev
+# Install dependencies for the operating system software
+# libmpdec-dev was installed to be used with php-decimal pecl package
+RUN apt-get update && apt-get install -y \
+    build-essential \
+    libmpdec-dev \
+    libpng-dev \
+    libjpeg62-turbo-dev \
+    libfreetype6-dev \
+    locales \
+    zip \
+    jpegoptim optipng pngquant gifsicle \
+    vim \
+    libzip-dev \
+    unzip \
+    git \
+    libonig-dev \
+    curl
 
-RUN docker-php-ext-install \
-    mysqli \
-    pdo_mysql \
-    zip
+# Clear cache
+RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 
-ENV APACHE_DOCUMENT_ROOT /var/www/html/public
-
-RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/sites-available/*.conf
-RUN sed -ri -e 's!/var/www/!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/apache2.conf /etc/apache2/conf-available/*.conf
-
+# Install extensions for php
+RUN docker-php-ext-install pdo_mysql mbstring zip exif pcntl bcmath
+RUN docker-php-ext-configure gd --with-freetype --with-jpeg
+RUN docker-php-ext-install gd
+# this ext fix the floating point comparison and precision when dealing with multiple decimal places
+RUN pecl install decimal \
+    && docker-php-ext-enable decimal
+# cache and queue persistent layer vendor libs
+RUN pecl install redis \
+    && rm -rf /tmp/pear \
+    && docker-php-ext-enable redis
+# Install composer (php package manager)
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
-RUN a2enmod rewrite
-RUN service apache2 restart
+# Copy existing application directory contents to the working directory (working_dir)
+COPY . /var/www
+
+# Assign permissions of the working directory to the www-data user
+RUN chown -R www-data:www-data \
+        /var/www/storage \
+        /var/www/bootstrap/cache
+
+# Expose port 9000 and start php-fpm server (for FastCGI Process Manager)
+EXPOSE 9000
+CMD ["php-fpm"]

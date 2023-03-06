@@ -10,7 +10,7 @@ Enum WeatherUnits: string
 
     case METRIC = 'metric';
 
-    case DEFAULT = 'kelvin';
+    case STANDARD = 'kelvin';
 
     case IMPERIAL = 'imperial';
 }

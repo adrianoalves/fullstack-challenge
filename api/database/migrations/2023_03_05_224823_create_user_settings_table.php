@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('weather', function (Blueprint $table) {
+        Schema::create('user_settings', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(\App\Models\User::class)
                 ->comment('user id that requested weather data');
@@ -24,29 +24,13 @@ return new class extends Migration
                 ->nullable(false)
                 ->comment('longitude at individual humans precision');
 
-            $table->decimal('temp', 5, 2)
-                ->nullable(false)
-                ->comment('temperature at the time of request');
-
-            $table->decimal('temp_feels_like', 5, 2)
-                ->nullable(true)
-                ->comment('human feels like temp');
-
-            $table->int('pressure', 5)
-                ->nullable(true)
-                ->comment('atmos pressure on the sea level');
-
-            $table->decimal('humidity', 5, 2)
-                ->nullable(true)
-                ->comment('air humidity');
-
-            $table->string('description', 100)
-                ->nullable()
-                ->comment('weather human description');
+            $table->string('locale', 5)
+                ->default('en_US')
+                ->comment('user locale and lang');
 
             $table->enum('unit', \App\Models\Enums\Weather\WeatherUnits::values())
                 ->default(\App\Models\Enums\Weather\WeatherUnits::STANDARD->value)
-                ->comment('unit measure used in the request');
+                ->comment('user unit of measure');
 
             $table->timestamps();
         });
@@ -57,6 +41,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('weather');
+        Schema::dropIfExists('user_settings');
     }
 };

@@ -30,5 +30,11 @@ return [
         'secret' => env('AWS_SECRET_ACCESS_KEY'),
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
+    'default_weather_api' => 'openweather',
 
+    'openweather' => [
+        'api_key' => \env('OPEN_WEATHER_API_KEY'),
+        'base_uri' => 'https://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&units={units}&lang={lang}&appid='.\env('OPEN_WEATHER_API_KEY'),
+        'ttl' => 60 // in minutes
+    ]
 ];

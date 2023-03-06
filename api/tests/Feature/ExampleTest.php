@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\Models\User;
+use App\Models\UserSettings;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -24,8 +25,10 @@ class ExampleTest extends TestCase
 
     public function test_database_works()
     {
-        User::factory(20)->create();
+        User::factory(5)
+            ->has( UserSettings::factory() )
+            ->create();
 
-        $this->assertEquals(20, User::all()->count());
+        $this->assertEquals(5, User::count());
     }
 }

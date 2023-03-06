@@ -12,7 +12,9 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('weather', function (Blueprint $table) {
+
             $table->id();
+
             $table->foreignIdFor(\App\Models\User::class)
                 ->comment('user id that requested weather data');
 
@@ -32,7 +34,7 @@ return new class extends Migration
                 ->nullable(true)
                 ->comment('human feels like temp');
 
-            $table->int('pressure', 5)
+            $table->unsignedInteger('pressure')
                 ->nullable(true)
                 ->comment('atmos pressure on the sea level');
 

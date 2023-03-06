@@ -11,7 +11,7 @@ services:
             - .:/var/www
         networks:
             - fullstack
-# i decided to replace to nginx from apache to get more concise, lighter and faster webserver and to open more performance and conf options
+        # i decided to replace to nginx from apache to get more concise, lighter and faster webserver and to open more performance and conf options
     webserver:
         image: nginx:alpine
         container_name: fs_webserver

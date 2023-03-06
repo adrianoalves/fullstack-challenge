@@ -21,4 +21,5 @@ Route::get('/', function () {
     ]);
 });
 Route::get('/weather', \App\Http\Controllers\WeatherController::class);
+Route::get('/users', [\App\Http\Controllers\UserController::class, 'users']);
 

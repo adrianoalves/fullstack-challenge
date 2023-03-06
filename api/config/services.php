@@ -35,6 +35,6 @@ return [
     'openweather' => [
         'api_key' => \env('OPEN_WEATHER_API_KEY'),
         'base_uri' => 'https://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&units={units}&lang={lang}&appid='.\env('OPEN_WEATHER_API_KEY'),
-        'ttl' => 60 // in minutes
+        'ttl' => 3600 // in seconds
     ]
 ];

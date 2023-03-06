@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Manager\WeatherExternalApiManager;
 use App\Services\OpenWeather;
+use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -35,6 +36,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        // it removes data outermost keys from the resource collection json results
+        JsonResource::withoutWrapping();
     }
 }

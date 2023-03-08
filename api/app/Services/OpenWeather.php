@@ -31,7 +31,7 @@ class OpenWeather implements Contracts\WeatherApiContract
         \throw_if( $result->getStatusCode() !== 200, new \Exception( $result->getReasonPhrase() ?? 'Error Exception' ) );
 
         $data = \json_decode( $result->getBody()->getContents(), true );
-        $data = $this->translate( $data );
+        $data = $this->translate( $data, $params );
         Weather::create(
             \array_merge( $data, [ 'user_id' => $params['user_id'] ] )
         );
@@ -66,7 +66,7 @@ class OpenWeather implements Contracts\WeatherApiContract
             'description' => $data['weather'][0]['description'],
             'weather_condition_code' => $data['weather'][0]['id'],
             'service' => $this->name,
-            'unit' => $data['units'] ?? WeatherUnits::STANDARD->value,
+            'unit' => $data['units'] ?? $additional['units'] ?? WeatherUnits::STANDARD->value,
         ];
     }
 }

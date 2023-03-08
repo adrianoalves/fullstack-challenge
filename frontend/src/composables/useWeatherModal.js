@@ -1,5 +1,6 @@
 import {ref} from 'vue'
 import {api} from "boot/axios"
+import { Loading, QSpinnerHourglass } from "quasar";
 
 const iconMap = {
   'cloudy_snowing': [300, 499],
@@ -22,15 +23,21 @@ const weatherData = ref({})
 
 function getWeatherData(props) {
   loading.value = true
+  Loading.show({
+    message: `Getting ${props.user_name} weather updates`,
+    spinner: QSpinnerHourglass
+  });
   api.get(`/weather/${props.user}`)
   .then( response => {
-    console.log( response.data );
     weatherData.value = response.data
-    loading.value = false
-    show.value = true
   })
   .catch( e => {
     console.log(e)
+  })
+  .finally( () => {
+    loading.value = false
+    show.value = true
+    Loading.hide()
   })
 }
 

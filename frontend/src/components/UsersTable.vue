@@ -54,7 +54,7 @@ export default defineComponent({
     }
 
     function getWeather(evt, row) {
-      getWeatherData({user: row.id})
+      getWeatherData({user: row.id, user_name: row.name})
     }
 
     function onRequest( props ) {

@@ -2,14 +2,16 @@
 
 namespace App\Models;
 
+use App\Concerns\HasWeatherInfo;
+use App\Models\Contracts\HasWeatherInfoContract;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
-class User extends Authenticatable
+class User extends Authenticatable implements HasWeatherInfoContract
 {
-    use HasFactory, Notifiable;
+    use HasFactory, Notifiable, HasWeatherInfo;
 
     /**
      * The attributes that are mass assignable.

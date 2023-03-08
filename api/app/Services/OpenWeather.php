@@ -64,6 +64,7 @@ class OpenWeather implements Contracts\WeatherApiContract
             'pressure' => $data['main']['pressure'],
             'humidity' => $data['main']['humidity'],
             'description' => $data['weather'][0]['description'],
+            'weather_condition_code' => $data['weather'][0]['id'],
             'service' => $this->name,
             'unit' => $data['units'] ?? WeatherUnits::STANDARD->value,
         ];

@@ -5,7 +5,7 @@
         <q-btn
           flat
           round
-          icon="thermostat"
+          icon="beach_access"
           aria-label="Menu"
         />
 

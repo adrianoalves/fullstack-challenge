@@ -20,6 +20,7 @@
 <script>
 import {defineComponent, ref, onMounted, computed, reactive} from 'vue'
 import {api} from "boot/axios";
+import {getWeatherData} from "src/composables/useWeatherModal.js";
 
 export default defineComponent({
   name: 'UsersTable',
@@ -44,7 +45,6 @@ export default defineComponent({
       page = page || 1
       perPage = perPage || 5
       api.get(`/users?page=${page}&per_page=${perPage}`).then( response => {
-        console.log( response.data );
         rows.value = response.data.data
         pagination.value.rowsNumber = response.data.meta.total
         pagination.value.rowsPerPage = response.data.meta.per_page
@@ -54,11 +54,10 @@ export default defineComponent({
     }
 
     function getWeather(evt, row) {
-      console.log('getting weather from user', row)
+      getWeatherData({user: row.id})
     }
 
     function onRequest( props ) {
-      console.log( props)
       const { page, rowsPerPage } = props.pagination
       getUsers(page, rowsPerPage)
     }

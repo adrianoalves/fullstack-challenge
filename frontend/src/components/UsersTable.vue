@@ -59,7 +59,7 @@ export default defineComponent({
 
     function onRequest( props ) {
       const { page, rowsPerPage } = props.pagination
-      getUsers(page, rowsPerPage)
+      getUsers( page, rowsPerPage )
     }
 
     onMounted( () => getUsers() )

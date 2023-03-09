@@ -32,6 +32,9 @@ A simple example of a PWA/SPA app to show user's weather updates
 ### Frontend
 - Navigate to `/frontend` folder
 - Start docker containers `docker compose up -d`
+- access the container terminal `docker-compose exec front bash`
 - Install javascript dependencies: `yarn install`
-- Run frontend: `quasar dev` (you can add `-m spa|pwa` to run your favorite app flavour)
+- Run frontend: `yarn quasar dev` (you can add `-m spa|pwa` to run your favorite app flavour)
 - Follow the instructions on the terminal to access the proper localhost port.
+
+Don't worry about the "Failed to open default browser" message, Just follow to  http://localhost:8080/ .

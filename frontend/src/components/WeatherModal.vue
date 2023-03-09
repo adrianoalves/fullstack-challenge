@@ -9,7 +9,7 @@
         <q-card-section class="q-pa-lg">
 
           <div class="row no-wrap items-center">
-            <div class="col text-h4 ellipsis text-purple-14 text-center">
+            <div class="col text-h4 ellipsis text-blue-14 text-center">
              {{ weatherData.temp }} {{ unitMap[weatherData.unit] }}
             </div>
           </div>
